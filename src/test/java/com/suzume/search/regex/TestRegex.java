@@ -9,6 +9,7 @@
 
 package com.suzume.search.regex;
 
+import java.io.File;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -131,6 +132,29 @@ public class TestRegex {
         Matcher m = p.matcher("aaabcd");
         System.out.println(m.find());// true
         System.out.println(m.find());// false
+    }
+    
+    @Test
+    public void pattern_12() {
+        System.out.println("abc".contains(""));// true
+    }
+    
+    @Test
+    public void pattern_13() {
+        System.out.println("abc".matches(""));// false
+    }
+    
+    @Test
+    public void pattern_14() {
+        File f = new File("e:/");
+        String name = f.getName();// 空串
+    }
+    
+    @Test
+    public void pattern_15() {
+        File f = new File("e:/druid");
+        String name = f.getName();
+        System.out.println(name);// druid
     }
     
 }

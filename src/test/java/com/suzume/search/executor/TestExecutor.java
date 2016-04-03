@@ -11,6 +11,7 @@ package com.suzume.search.executor;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.junit.Test;
 
@@ -28,7 +29,13 @@ public class TestExecutor {
     @Test
     public void executorInfo() {
         ExecutorService es = Executors.newFixedThreadPool(10);
-        System.out.println();
+        System.out.println(es.isShutdown());
+        System.out.println(((ThreadPoolExecutor) es).getActiveCount());// 0
+        System.out.println(((ThreadPoolExecutor) es).getCorePoolSize());// 10
+        System.out.println(((ThreadPoolExecutor) es).getLargestPoolSize());// 0
+        System.out.println(((ThreadPoolExecutor) es).getMaximumPoolSize());// 10
+        System.out.println(((ThreadPoolExecutor) es).getPoolSize());// 0
+        System.out.println(((ThreadPoolExecutor) es).getTaskCount());// 0
     }
     
 }
