@@ -143,7 +143,7 @@ public class SearchEngine {
         scanTaskPool.execute(task);
         while (!task.isDone()) {
             System.out.println(scanTaskPool);
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         }
         // task.join();
         resultSet.flush();

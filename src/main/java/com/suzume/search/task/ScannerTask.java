@@ -76,7 +76,10 @@ public class ScannerTask extends RecursiveTask<Long> {
                 @Override
                 public boolean accept(File dir,
                                       String name) {
-                    if (name.equals(".") || name.equals("..")) {
+                    if (name.equals(".") ||
+                        name.equals("..") ||
+                        name.equalsIgnoreCase("$RECYCLE.BIN") ||
+                        name.equalsIgnoreCase("System Volume Information")) {
                         return false;
                     }
                     return true;
@@ -113,9 +116,19 @@ public class ScannerTask extends RecursiveTask<Long> {
     private String getFileRow(File f) {
         return (f.isDirectory()
                                ? "DIRECTORY"
-                               : "FILE") + "," + humanSize(f.length()) + "," + f.getName() + "," + f.getAbsolutePath() + "," + new Date(f.lastModified()) + "," + (f.isHidden()
-                                                                                                                                                                               ? "HIDDEN"
-                                                                                                                                                                               : "NORMAL");
+                               : "FILE") +
+               "," +
+               humanSize(f.length()) +
+               "," +
+               f.getName() +
+               "," +
+               f.getAbsolutePath() +
+               "," +
+               new Date(f.lastModified()) +
+               "," +
+               (f.isHidden()
+                            ? "HIDDEN"
+                            : "NORMAL");
     }
     
     private String humanSize(long size) {

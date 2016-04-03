@@ -75,9 +75,8 @@ public class ResultSetPool {
         }
         if (isFull()) {
             flush();
-        } else {
-            pool.add(line);
         }
+        pool.add(line);
     }
     
     /**
