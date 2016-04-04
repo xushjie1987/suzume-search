@@ -58,7 +58,7 @@ java.util.concurrent.ForkJoinPool@1e397ed7[Running, parallelism = 50, size = 464
 public class Main {
     
     /**
-     * main: scan -r "e:/" -o "./tmp/result.csv" -n "suzume" <br/>
+     * main: scan -r "e:/" -o "./tmp/result.csv" -n "suzume" -c -p -f <br/>
      * @author shengjie
      * @param args
      * @since JDK 1.7

@@ -59,6 +59,7 @@ public class ResultSetPool {
         dataPool.threadPool = Executors.newFixedThreadPool(writeThreads);
         dataPool.fileWriter = ResultSetWriter.build(resultFile);
         dataPool.pool = new ArrayList<String>();
+        dataPool.pool.add("文件/目录,大小,文件名,绝对路径,上次修改时间,是否隐藏");
         dataPool.threshold = blockLines;
         return dataPool;
     }

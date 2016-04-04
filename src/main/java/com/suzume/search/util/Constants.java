@@ -22,4 +22,6 @@ public class Constants {
     
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     
+    public static final String HUMAN_DATE   = "yyyy年MM月dd日 HH时mm分ss秒";
+    
 }

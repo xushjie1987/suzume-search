@@ -30,6 +30,7 @@ import com.suzume.search.chain.TailDateFilter;
 import com.suzume.search.pool.ResultSetPool;
 import com.suzume.search.task.ScannerTask;
 import com.suzume.search.util.FormatedDate;
+import com.suzume.search.util.TimeUtil;
 
 /**
  * ClassName:SearchEngine <br/>
@@ -149,7 +150,7 @@ public class SearchEngine {
         resultSet.flush();
         long end = System.currentTimeMillis();
         log.info("扫描工作执行完成，耗时{}，扫描得到{}条结果记录",
-                 end - start,
+                 TimeUtil.humanTime(end - start),
                  task.get());
     }
     

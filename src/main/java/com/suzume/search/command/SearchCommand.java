@@ -63,8 +63,8 @@ public class SearchCommand implements Runnable {
     
     @Option(name = { "-c", "--contain" },
             required = false,
-            description = "文件名匹配原则，默认为字符串包含匹配")
-    public Boolean      isContains      = true;
+            description = "文件名匹配原则，默认为字符串非包含匹配")
+    public Boolean      isContains      = false;
     
     @Option(name = { "-s", "--sensitive" },
             required = false,
@@ -78,13 +78,13 @@ public class SearchCommand implements Runnable {
     
     @Option(name = { "-p", "--path" },
             required = false,
-            description = "是否扫描路径名，默认扫描")
-    public Boolean      isPath          = true;
+            description = "是否扫描路径名，默认不扫描")
+    public Boolean      isPath          = false;
     
     @Option(name = { "-f", "--file" },
             required = false,
-            description = "是否扫描文件名，默认扫描")
-    public Boolean      isFile          = true;
+            description = "是否扫描文件名，默认不扫描")
+    public Boolean      isFile          = false;
     
     @Option(name = { "-i", "--min" },
             required = false,

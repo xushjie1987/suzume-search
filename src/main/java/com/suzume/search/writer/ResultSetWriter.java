@@ -16,6 +16,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.suzume.search.util.CharacterUtil;
+
 /**
  * ClassName:ResultSetWriter <br/>
  * Function: <br/>
@@ -78,8 +80,7 @@ public class ResultSetWriter {
         }
         StringBuilder data = new StringBuilder();
         for (String result : resultset) {
-            data.append(result)
-                .append("\r\n");
+            data.append(CharacterUtil.formatSysEncode(result + "\r\n"));
         }
         synchronized (this) {
             try {

@@ -12,12 +12,12 @@ package com.suzume.search.task;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
 import com.suzume.search.chain.FilterChain;
 import com.suzume.search.pool.ResultSetPool;
+import com.suzume.search.util.TimeUtil;
 
 /**
  * ClassName:ScannerTask <br/>
@@ -79,7 +79,8 @@ public class ScannerTask extends RecursiveTask<Long> {
                     if (name.equals(".") ||
                         name.equals("..") ||
                         name.equalsIgnoreCase("$RECYCLE.BIN") ||
-                        name.equalsIgnoreCase("System Volume Information")) {
+                        name.equalsIgnoreCase("System Volume Information") ||
+                        name.equalsIgnoreCase("RECYCLER")) {
                         return false;
                     }
                     return true;
@@ -124,13 +125,20 @@ public class ScannerTask extends RecursiveTask<Long> {
                "," +
                f.getAbsolutePath() +
                "," +
-               new Date(f.lastModified()) +
+               TimeUtil.humanDate(f.lastModified()) +
                "," +
                (f.isHidden()
                             ? "HIDDEN"
                             : "NORMAL");
     }
     
+    /**
+     * humanSize: <br/>
+     * @author shengjie
+     * @param size
+     * @return
+     * @since JDK 1.7
+     */
     private String humanSize(long size) {
         if (size / 1024 / 1024 / 1024 > 0) {
             return String.valueOf(size / 1024 / 1024 / 1024) + "GB";
