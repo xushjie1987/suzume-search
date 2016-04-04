@@ -9,19 +9,24 @@
 
 package com.suzume.search.writer;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suzume.search.util.CharacterUtil;
+import com.suzume.search.util.Constants;
 
 /**
  * ClassName:ResultSetWriter <br/>
  * Function: <br/>
  * Date: 2016年4月3日 下午4:58:24 <br/>
+ * 
  * @author shengjie
  * @version
  * @since JDK 1.7
@@ -31,10 +36,11 @@ public class ResultSetWriter {
     
     private static final Logger log = LoggerFactory.getLogger(ResultSetWriter.class);
     
-    private FileWriter          fw  = null;
+    private OutputStreamWriter  fw  = null;
     
     /**
      * build: <br/>
+     * 
      * @author shengjie
      * @param resultFile
      * @return
@@ -43,13 +49,25 @@ public class ResultSetWriter {
      */
     public static ResultSetWriter build(String resultFile) throws IOException {
         ResultSetWriter writer = new ResultSetWriter();
-        writer.fw = new FileWriter(resultFile,
-                                   false);
+        File out = new File(resultFile);
+        if (!out.getParentFile()
+                .exists()) {
+            out.getParentFile()
+               .mkdirs();
+        }
+        out.createNewFile();
+        writer.fw = new OutputStreamWriter(new FileOutputStream(out,
+                                                                false),
+                                           System.getProperty(Constants.OS_CHARSET,
+                                                              System.getProperty(Constants.FILE_CHARSET,
+                                                                                 Charset.defaultCharset()
+                                                                                        .name())));
         return writer;
     }
     
     /**
      * build: <br/>
+     * 
      * @author shengjie
      * @param resultFile
      * @param append
@@ -67,12 +85,14 @@ public class ResultSetWriter {
     
     /**
      * writeDown: <br/>
+     * 
      * @author shengjie
      * @param resultset
      * @since JDK 1.7
      */
     public void writeDown(List<String> resultset) {
-        if (resultset == null || fw == null) {
+        if (resultset == null ||
+            fw == null) {
             return;
         }
         if (0 == resultset.size()) {
@@ -80,7 +100,8 @@ public class ResultSetWriter {
         }
         StringBuilder data = new StringBuilder();
         for (String result : resultset) {
-            data.append(CharacterUtil.formatSysEncode(result + "\r\n"));
+            data.append(result)
+                .append("\r\n");
         }
         synchronized (this) {
             try {
