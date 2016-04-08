@@ -76,6 +76,10 @@ public class ScannerTask extends RecursiveTask<Long> {
                 @Override
                 public boolean accept(File dir,
                                       String name) {
+                    // name.equalsIgnoreCase("Application Data")
+                    // name.equalsIgnoreCase("Config.Msi")
+                    // name.equalsIgnoreCase("Documents and Settings")
+                    // 排除掉典型的无意义系统路径
                     if (name.equals(".") ||
                         name.equals("..") ||
                         name.equalsIgnoreCase("$RECYCLE.BIN") ||
@@ -86,25 +90,28 @@ public class ScannerTask extends RecursiveTask<Long> {
                     return true;
                 }
             });
-            List<ScannerTask> tasks = new ArrayList<ScannerTask>();
-            for (File f : childs) {
-                if (f.isDirectory()) {
-                    ScannerTask task = new ScannerTask(f,
-                                                       deepth,
-                                                       level + 1,
-                                                       filterChain,
-                                                       resultSet);
-                    task.fork();
-                    tasks.add(task);
-                } else {
-                    if (filterChain.filter(f)) {
-                        resultSet.submit(getFileRow(f));
-                        total++;
+            // 如果路径可以访问且路径下有内容，防止频繁发生的<code>java.lang.NullPointerException</code>
+            if (childs != null && childs.length > 0) {
+                List<ScannerTask> tasks = new ArrayList<ScannerTask>();
+                for (File f : childs) {
+                    if (f.isDirectory()) {
+                        ScannerTask task = new ScannerTask(f,
+                                                           deepth,
+                                                           level + 1,
+                                                           filterChain,
+                                                           resultSet);
+                        task.fork();
+                        tasks.add(task);
+                    } else {
+                        if (filterChain.filter(f)) {
+                            resultSet.submit(getFileRow(f));
+                            total++;
+                        }
                     }
                 }
-            }
-            for (ScannerTask task : tasks) {
-                total += task.join();
+                for (ScannerTask task : tasks) {
+                    total += task.join();
+                }
             }
         }
         return total;
